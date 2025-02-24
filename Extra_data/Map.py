@@ -21,8 +21,6 @@ lon = origin_lon + (x / (earth_radius * np.cos(np.pi * origin_lat / 180))) * (18
 nature = geopandas.read_file("./natura2000.gpkg")
 nature = nature.to_crs(epsg=4326)
 
-
-
 m = Basemap(projection='merc', llcrnrlat=50.5, urcrnrlat=54,
             llcrnrlon=2, urcrnrlon=7.5, resolution='i')
 x_map, y_map = m(lon,lat)
@@ -39,5 +37,10 @@ for i in range(len(nature)):
         x_map, y_map = m(x,y)
         plt.plot(x_map,y_map,color='g')
         plt.fill(x_map,y_map, alpha=0.5,color='g')
-plt.savefig("./Population_data/kaart.png")
+
+x_schiphol, y_schiphol = m(origin_lon, origin_lat)
+plt.plot(x_schiphol, y_schiphol, 'ro', markersize=5)
+plt.text(x_schiphol, y_schiphol, 'Schiphol', fontsize=12)
+
+plt.savefig("./kaart.png")
 plt.show()
