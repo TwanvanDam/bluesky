@@ -3,6 +3,9 @@ import os
 import shutil
 import geopandas as gpd
 
+input_file = "C:/Users/twanv/Downloads/ATM Kaart.kml"
+
+
 if os.path.exists("./procedures"):
     shutil.rmtree("./procedures")
 os.mkdir("./procedures")
@@ -10,7 +13,13 @@ os.mkdir("./procedures")
 # Enable KML support via fiona
 fiona.supported_drivers['KML'] = 'rw'
 
-df = gpd.read_file('ATM Kaart.kml', driver='KML', layer="SID/STAR")
+DEST_COLOR = {
+    "AMS": "yellow",
+    "RTM": "orange",
+    # add more as needed
+}
+
+df = gpd.read_file(input_file, driver='KML', layer="SID/STAR")
 procedures = df[df['geometry'].geom_type == 'LineString'].reset_index()
 for i in range(len(procedures)):
     lines = []
@@ -37,10 +46,12 @@ for i in range(len(procedures)):
             points = list(reversed(points))
             print(f"{procedures["Name"][i]} line reversed")
         points =  points[:-1] # Remove last point (arrival airport)
-
+        color = DEST_COLOR[procedures["Name"][i].split(" ")[0]]
 
     for point in points:
         lines.append(f"00:00:00.00>%0 addwpt {point[1]} {point[0]}\n")
+    if "STAR" in procedures["Name"][i]:
+        lines.append(f"00:00:00.10>%0 COL {color}\n")
 
     file_name = (f"./procedures/{procedures["Name"][i]}.scn"
                  .replace(" ", "_").replace("South", "S").replace("North", "N")
@@ -48,6 +59,22 @@ for i in range(len(procedures)):
 
     with open(file_name, "w") as text_file:
         text_file.writelines(lines)
+
+df = gpd.read_file(input_file, driver='KML', layer="Grenzen")
+df_sectors = df[df['geometry'].geom_type == 'Polygon'].reset_index()
+lines = []
+for i in range(len(df_sectors)):
+    if "Sector" in df_sectors["Name"][i]:
+        # make .scn file to plot the sector in bluesky
+        line = f"00:00:00.10>POLY {df_sectors["Name"][i].replace(" ", "_")} "
+        points = df_sectors["geometry"][i].exterior.coords
+        for point in points:
+            line += f"{point[1]} {point[0]} "
+
+        lines += [line + "\n"]
+file_name = f"./procedures/sectors.scn"
+with open(file_name, "w") as text_file:
+    text_file.writelines(lines)
 
 
 
