@@ -1,5 +1,5 @@
 REM To specify sim server, just add IP number of PC to the command line (get with IPCONFIG on other Win PC, at MacOS & Linux: ifconfig)
 
-python.exe Bluesky.py --client
+python.exe Bluesky.py --client 192.168.29.121
 
 pause
