@@ -136,29 +136,6 @@
         <styleUrl>#icon-1899-C2185B-nodesc-highlight</styleUrl>
       </Pair>
     </StyleMap>
-    <Style id="icon-1899-E65100-labelson">
-      <IconStyle>
-        <color>ff0051e6</color>
-        <scale>1</scale>
-        <Icon>
-          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
-        </Icon>
-        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
-      </IconStyle>
-    </Style>
-    <Style id="icon-1899-E65100-labelson-nodesc">
-      <IconStyle>
-        <color>ff0051e6</color>
-        <scale>1</scale>
-        <Icon>
-          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
-        </Icon>
-        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
-      </IconStyle>
-      <BalloonStyle>
-        <text><![CDATA[<h3>$[name]</h3>]]></text>
-      </BalloonStyle>
-    </Style>
     <Style id="icon-1899-FF5252-nodesc-normal">
       <IconStyle>
         <color>ff5252ff</color>
@@ -369,6 +346,34 @@
         <styleUrl>#line-9C27B0-1200-nodesc-highlight</styleUrl>
       </Pair>
     </StyleMap>
+    <Style id="line-A52714-1200-nodesc-normal">
+      <LineStyle>
+        <color>ff1427a5</color>
+        <width>1.2</width>
+      </LineStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="line-A52714-1200-nodesc-highlight">
+      <LineStyle>
+        <color>ff1427a5</color>
+        <width>1.8</width>
+      </LineStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="line-A52714-1200-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#line-A52714-1200-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#line-A52714-1200-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
     <Style id="line-F48FB1-1200-nodesc-normal">
       <LineStyle>
         <color>ffb18ff4</color>
@@ -570,7 +575,7 @@
     <Folder>
       <name>SID/STAR</name>
       <Placemark>
-        <name>AMS STAR 06 South</name>
+        <name>AMS STAR 04 South</name>
         <styleUrl>#line-0288D1-1200-nodesc</styleUrl>
         <LineString>
           <tessellate>1</tessellate>
@@ -585,7 +590,7 @@
         </LineString>
       </Placemark>
       <Placemark>
-        <name>AMS STAR 06 West</name>
+        <name>AMS STAR 04 West</name>
         <styleUrl>#line-0288D1-1200-nodesc</styleUrl>
         <LineString>
           <tessellate>1</tessellate>
@@ -599,7 +604,7 @@
         </LineString>
       </Placemark>
       <Placemark>
-        <name>AMS STAR 06 East</name>
+        <name>AMS STAR 04 East</name>
         <styleUrl>#line-0288D1-1200-nodesc</styleUrl>
         <LineString>
           <tessellate>1</tessellate>
@@ -793,7 +798,7 @@
       </Placemark>
       <Placemark>
         <name>AMS SID 09 West 2</name>
-        <styleUrl>#line-000000-1200-nodesc</styleUrl>
+        <styleUrl>#line-A52714-1200-nodesc</styleUrl>
         <LineString>
           <tessellate>1</tessellate>
           <coordinates>
@@ -809,7 +814,7 @@
       </Placemark>
       <Placemark>
         <name>AMS SID 09 South-West</name>
-        <styleUrl>#line-000000-1200-nodesc</styleUrl>
+        <styleUrl>#line-A52714-1200-nodesc</styleUrl>
         <LineString>
           <tessellate>1</tessellate>
           <coordinates>
@@ -824,8 +829,8 @@
         </LineString>
       </Placemark>
       <Placemark>
-        <name>AMSRWY09 SE Exit</name>
-        <styleUrl>#line-000000-1200-nodesc</styleUrl>
+        <name>AMS SID 09 South-East</name>
+        <styleUrl>#line-A52714-1200-nodesc</styleUrl>
         <LineString>
           <tessellate>1</tessellate>
           <coordinates>
@@ -843,8 +848,8 @@
         </LineString>
       </Placemark>
       <Placemark>
-        <name>AMSRWY09 West1 Exit</name>
-        <styleUrl>#line-000000-1200-nodesc</styleUrl>
+        <name>AMS SID 09 West 1</name>
+        <styleUrl>#line-A52714-1200-nodesc</styleUrl>
         <LineString>
           <tessellate>1</tessellate>
           <coordinates>
@@ -861,7 +866,7 @@
       </Placemark>
       <Placemark>
         <name>AMS SID 09 North-East</name>
-        <styleUrl>#line-000000-1200-nodesc</styleUrl>
+        <styleUrl>#line-A52714-1200-nodesc</styleUrl>
         <LineString>
           <tessellate>1</tessellate>
           <coordinates>
@@ -878,8 +883,8 @@
         </LineString>
       </Placemark>
       <Placemark>
-        <name>AMSRWY09 S Exit</name>
-        <styleUrl>#line-000000-1200-nodesc</styleUrl>
+        <name>AMS SID 09 South</name>
+        <styleUrl>#line-A52714-1200-nodesc</styleUrl>
         <LineString>
           <tessellate>1</tessellate>
           <coordinates>
@@ -895,7 +900,7 @@
       </Placemark>
       <Placemark>
         <name>AMS SID 09 North</name>
-        <styleUrl>#line-000000-1200-nodesc</styleUrl>
+        <styleUrl>#line-A52714-1200-nodesc</styleUrl>
         <LineString>
           <tessellate>1</tessellate>
           <coordinates>
@@ -911,7 +916,7 @@
       </Placemark>
       <Placemark>
         <name>AMS SID 09 East</name>
-        <styleUrl>#line-000000-1200-nodesc</styleUrl>
+        <styleUrl>#line-A52714-1200-nodesc</styleUrl>
         <LineString>
           <tessellate>1</tessellate>
           <coordinates>
@@ -927,7 +932,7 @@
       </Placemark>
       <Placemark>
         <name>AMS SID 09 North-West</name>
-        <styleUrl>#line-000000-1200-nodesc</styleUrl>
+        <styleUrl>#line-A52714-1200-nodesc</styleUrl>
         <LineString>
           <tessellate>1</tessellate>
           <coordinates>
@@ -1378,7 +1383,7 @@
       <name>SID RTM</name>
       <Placemark>
         <name>RTM</name>
-        <styleUrl>#icon-1899-E65100-labelson-nodesc</styleUrl>
+        <styleUrl>#icon-1899-0288D1-labelson-nodesc</styleUrl>
         <Point>
           <coordinates>
             4.4340703,51.9552036,0
@@ -1388,7 +1393,7 @@
       <Placemark>
         <name>RTW1</name>
         <description>Rotterdam West 1</description>
-        <styleUrl>#icon-1899-E65100-labelson</styleUrl>
+        <styleUrl>#icon-1899-0288D1-labelson</styleUrl>
         <Point>
           <coordinates>
             4.3614355,51.9703725,0
@@ -1397,7 +1402,7 @@
       </Placemark>
       <Placemark>
         <name>RTW2</name>
-        <styleUrl>#icon-1899-E65100-labelson-nodesc</styleUrl>
+        <styleUrl>#icon-1899-0288D1-labelson-nodesc</styleUrl>
         <Point>
           <coordinates>
             4.2370456,51.9376821,0
@@ -1406,7 +1411,7 @@
       </Placemark>
       <Placemark>
         <name>RTW3</name>
-        <styleUrl>#icon-1899-E65100-labelson-nodesc</styleUrl>
+        <styleUrl>#icon-1899-0288D1-labelson-nodesc</styleUrl>
         <Point>
           <coordinates>
             4.0937817,51.977009,0
@@ -1419,7 +1424,7 @@
       </Placemark>
       <Placemark>
         <name>RTZ1</name>
-        <styleUrl>#icon-1899-E65100-labelson-nodesc</styleUrl>
+        <styleUrl>#icon-1899-0288D1-labelson-nodesc</styleUrl>
         <Point>
           <coordinates>
             4.5972483,51.9986888,0
@@ -1428,7 +1433,7 @@
       </Placemark>
       <Placemark>
         <name>RTZ2</name>
-        <styleUrl>#icon-1899-E65100-labelson-nodesc</styleUrl>
+        <styleUrl>#icon-1899-0288D1-labelson-nodesc</styleUrl>
         <Point>
           <coordinates>
             4.682049,51.9422157,0
@@ -1437,7 +1442,7 @@
       </Placemark>
       <Placemark>
         <name>RTZ3</name>
-        <styleUrl>#icon-1899-E65100-labelson-nodesc</styleUrl>
+        <styleUrl>#icon-1899-0288D1-labelson-nodesc</styleUrl>
         <Point>
           <coordinates>
             4.5893514,51.8375396,0
@@ -1446,7 +1451,7 @@
       </Placemark>
       <Placemark>
         <name>RTZ4</name>
-        <styleUrl>#icon-1899-E65100-labelson-nodesc</styleUrl>
+        <styleUrl>#icon-1899-0288D1-labelson-nodesc</styleUrl>
         <Point>
           <coordinates>
             4.5886653,51.7266703,0
@@ -1459,7 +1464,7 @@
       </Placemark>
       <Placemark>
         <name>RTO1</name>
-        <styleUrl>#icon-1899-E65100-labelson-nodesc</styleUrl>
+        <styleUrl>#icon-1899-0288D1-labelson-nodesc</styleUrl>
         <Point>
           <coordinates>
             5.025371,51.9341379,0
