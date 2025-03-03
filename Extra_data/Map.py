@@ -42,5 +42,5 @@ x_schiphol, y_schiphol = m(origin_lon, origin_lat)
 plt.plot(x_schiphol, y_schiphol, 'ro', markersize=5)
 plt.text(x_schiphol, y_schiphol, 'Schiphol', fontsize=12)
 
-plt.savefig("./kaart.png")
+plt.savefig("./kaart.pdf")
 plt.show()
