@@ -45,13 +45,23 @@ for i in range(len(procedures)):
         if distance_first < distance_last:
             points = list(reversed(points))
             print(f"{procedures["Name"][i]} line reversed")
-        points =  points[:-1] # Remove last point (arrival airport)
+        # points =  points[:-1] # Remove last point (arrival airport)
         color = DEST_COLOR[procedures["Name"][i].split(" ")[0]]
 
-    for point in points:
-        lines.append(f"00:00:00.00>%0 addwpt {point[1]} {point[0]}\n")
+    # for point in points:
+    #     lines.append(f"00:00:00.00>%0 addwpt {point[1]} {point[0]} \n")
+    for i, point in enumerate(points):
+        if i == len(points) - 1:
+            lines.append(f"00:00:00.00>%0 addwpt {point[1]} {point[0]} 0 150\n")
+        else:
+            lines.append(f"00:00:00.00>%0 addwpt {point[1]} {point[0]}\n")
+
     if "STAR" in procedures["Name"][i]:
         lines.append(f"00:00:00.10>%0 COL {color}\n")
+        lines.append(f"00:00:00.10>%0 ATALT 10000 SPD 250\n")
+    if "SID" in procedures["Name"][i]:
+        lines.append(f"00:00:00.10>%0 ATALT 9500 ALT 30000\n")
+        lines.append(f"00:00:00.10>%0 ATALT 10000 SPD 350\n")
 
     file_name = (f"./procedures/{procedures["Name"][i]}.scn"
                  .replace(" ", "_").replace("South", "S").replace("North", "N")
