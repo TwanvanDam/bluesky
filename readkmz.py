@@ -13,22 +13,28 @@ os.mkdir("./procedures")
 # Enable KML support via fiona
 fiona.supported_drivers['KML'] = 'rw'
 
-DEST_COLOR = {
-    "AMS": "yellow",
-    "RTM": "orange",
-    # add more as needed
-}
-
 df = gpd.read_file(input_file, driver='KML', layer="SID/STAR")
 procedures = df[df['geometry'].geom_type == 'LineString'].reset_index()
+waypoints = df[df['geometry'].geom_type == 'Point'].reset_index()
+
+for i in range(len(waypoints)):
+    with open(f"./procedures/{waypoints["Name"][i]}.scn", "w") as text_file:
+        text_file.write(f"00:00:00.00>%0 addwpt {waypoints["geometry"][i].coords[0][1]} {waypoints["geometry"][i].coords[0][0]} 0 150\n")
+        text_file.write(f"00:00:00.10>%0 COL yellow\n")
+
 for i in range(len(procedures)):
+    print(f"Processing {procedures["Name"][i]}")
     lines = []
     if "RTM" in procedures["Name"][i]:
         origin = [4.4595321, 51.9644045]
     elif "AMS" in procedures["Name"][i]:
         origin = [4.7681, 52.3105]
+    elif "LEL" in procedures["Name"][i]:
+        origin = [5.5189, 52.4557]
+    elif "EIN" in procedures["Name"][i]:
+        origin = [5.3761, 51.4516]
     else:
-        raise ValueError("Unknown airport")
+        raise ValueError(f"Unknown airport {procedures['Name'][i]}")
     points = procedures["geometry"][i].coords
 
     if "SID" in procedures["Name"][i]:
@@ -38,6 +44,7 @@ for i in range(len(procedures)):
             points = list(reversed(points))
             print(f"{procedures["Name"][i]} line reversed")
         points =  points[1:] # Remove first point (departure airport)
+        color = "yellow"
 
     if "STAR" in procedures["Name"][i]:
         distance_first = (points[0][0] - origin[0]) ** 2 + (points[0][1] - origin[1]) ** 2
@@ -46,27 +53,28 @@ for i in range(len(procedures)):
             points = list(reversed(points))
             print(f"{procedures["Name"][i]} line reversed")
         # points =  points[:-1] # Remove last point (arrival airport)
-        color = DEST_COLOR[procedures["Name"][i].split(" ")[0]]
+        color = "blue"
 
     # for point in points:
     #     lines.append(f"00:00:00.00>%0 addwpt {point[1]} {point[0]} \n")
-    for i, point in enumerate(points):
-        if i == len(points) - 1:
+    for j, point in enumerate(points):
+        if j == len(points) - 1:
             lines.append(f"00:00:00.00>%0 addwpt {point[1]} {point[0]} 0 150\n")
         else:
             lines.append(f"00:00:00.00>%0 addwpt {point[1]} {point[0]}\n")
 
     if "STAR" in procedures["Name"][i]:
         lines.append(f"00:00:00.10>%0 COL {color}\n")
-        lines.append(f"00:00:00.10>%0 ATALT 10000 SPD 250\n")
+        lines.append(f"00:00:00.10>%0 ATALT FL100 SPD 250\n")
     if "SID" in procedures["Name"][i]:
-        lines.append(f"00:00:00.10>%0 ATALT 9500 ALT 30000\n")
-        lines.append(f"00:00:00.10>%0 ATALT 10000 SPD 350\n")
+        lines.append(f"00:00:00.10>%0 COL {color}\n")
+        lines.append(f"00:00:00.10>%0 ATALT FL095 ALT FL300\n")
+        lines.append(f"00:00:00.10>%0 ATALT FL100 SPD 350\n")
 
     file_name = (f"./procedures/{procedures["Name"][i]}.scn"
                  .replace(" ", "_").replace("South", "S").replace("North", "N")
                  .replace("East", "E").replace("West", "W").replace("-", ""))
-
+    print(f"Writing {file_name}")
     with open(file_name, "w") as text_file:
         text_file.writelines(lines)
 
