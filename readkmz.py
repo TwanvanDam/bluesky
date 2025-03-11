@@ -72,11 +72,12 @@ for i in range(len(procedures)):
     if "STAR" in procedures["Name"][i]:
         lines.append(f"00:00:00.10>%0 COL {color}\n")
         lines.append(f"00:00:00.10>%0 ATALT FL100 SPD 250\n")
+        lines.append(f"00:00:00.15>%0 VNAV on\n")
     if "SID" in procedures["Name"][i]:
         lines.append(f"00:00:00.10>%0 COL {color}\n")
         lines.append(f"00:00:00.10>%0 ALT FL300\n")
         lines.append(f"00:00:00.10>%0 ATALT FL100 SPD 350\n")
-    lines.append(f"00:00:00.15>%0 VNAV on\n")
+
     file_name = (f"./procedures/{procedures["Name"][i]}.scn"
                  .replace(" ", "_").replace("South", "S").replace("North", "N")
                  .replace("East", "E").replace("West", "W").replace("-", ""))
