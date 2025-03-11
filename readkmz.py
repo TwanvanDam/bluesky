@@ -59,7 +59,11 @@ for i in range(len(procedures)):
     #     lines.append(f"00:00:00.00>%0 addwpt {point[1]} {point[0]} \n")
     for j, point in enumerate(points):
         if j == len(points) - 1:
-            lines.append(f"00:00:00.00>%0 addwpt {point[1]} {point[0]} 0 150\n")
+            if ("STAR" in procedures["Name"][i]) or ("LeGro" in procedures["Name"][i]):
+                lines.append(f"00:00:00.00>%0 addwpt {point[1]} {point[0]} 0 150\n")
+            else:
+                lines.append(f"00:00:00.00>%0 addwpt {point[1]} {point[0]}\n")
+
         else:
             lines.append(f"00:00:00.00>%0 addwpt {point[1]} {point[0]}\n")
 
