@@ -97,8 +97,14 @@ def save_stars_to_file(stars, airport_coodinates_dict, save_path="./procedures")
         for j, point in enumerate(points):
             if j == 0:
                 lines.append(f"00:00:00.00>%0 addwpt {point[1]} {point[0]} 9000 250\n")
-            elif j == len(points) - 1:
+
+            # second to last point (=start of runway) set speed to 150
+            elif j == len(points) - 2:
                 lines.append(f"00:00:00.00>%0 addwpt {point[1]} {point[0]} 0 150\n")
+
+            # last point (=end of runway) set speed to 0
+            elif j == len(points) - 1:
+                lines.append(f"00:00:00.00>%0 addwpt {point[1]} {point[0]} 0 0\n")
             else:
                 lines.append(f"00:00:00.00>%0 addwpt {point[1]} {point[0]}\n")
 
@@ -130,10 +136,19 @@ if __name__ == "__main__":
     cleanup_saving_path("./procedures")
 
     airport_coordinates_dict = {
-        "RTM": [4.4595321, 51.9644045],
-        "AMS": [4.7681, 52.3105],
-        "LEL": [5.5189, 52.4557],
-        "EIN": [5.3761, 51.4516]
+        "RTM": [4.4595, 51.9644], # Rotterdam airport
+        "AMS": [4.7681, 52.3105], # Amsterdam airport
+        "LEL": [5.5189, 52.4557], # Lelystad airport
+        "EIN": [5.3761, 51.4516], # Eindhoven airport
+        "UDE": [5.7091, 51.6577], # Volkel airport
+        "MAA": [5.7712, 50.9130], # Maastricht airport
+        "LEE": [5.7601, 53.2285], # Leeuwarden airport
+        "GRO": [6.5773, 53.1189], # Groningen airport
+        "TWE": [6.8859, 52.2745], # Twente airport
+        "HOO": [6.5183, 52.7309], # Hoogeveen airport
+        "ZEE": [3.7307, 51.5122], # Midden zeeland airport
+        "KOO": [4.7807, 52.9236], # De kooy airport
+        "TEU": [6.0499, 52.2428], # Teuge airport
     }
 
     # Save sectors to file
