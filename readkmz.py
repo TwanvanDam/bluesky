@@ -63,7 +63,7 @@ for i in range(len(procedures)):
                 lines.append(f"00:00:00.00>%0 addwpt {point[1]} {point[0]} 0 150\n")
             else:
                 lines.append(f"00:00:00.00>%0 addwpt {point[1]} {point[0]} \n")
-        if (j == 1) and ("STAR" in procedures["Name"][i]):
+        if (j == 0) and ("STAR" in procedures["Name"][i]):
             lines.append(f"00:00:00.00>%0 addwpt {point[1]} {point[0]} 9000 250\n")
 
         else:
