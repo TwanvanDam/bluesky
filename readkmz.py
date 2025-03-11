@@ -29,7 +29,7 @@ for i in range(len(procedures)):
         origin = [4.4595321, 51.9644045]
     elif "AMS" in procedures["Name"][i]:
         origin = [4.7681, 52.3105]
-    elif "LEL" in procedures["Name"][i]:
+    elif "LEL" in procedures["Name"][i] or "LeGro" in procedures["Name"][i]:
         origin = [5.5189, 52.4557]
     elif "EIN" in procedures["Name"][i]:
         origin = [5.3761, 51.4516]
