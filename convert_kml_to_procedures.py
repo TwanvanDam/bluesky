@@ -139,17 +139,17 @@ if __name__ == "__main__":
     airport_coordinates_dict = {
         "RTM": [4.4595, 51.9644], # Rotterdam airport
         "AMS": [4.7681, 52.3105], # Amsterdam airport
-        "LEL": [5.5189, 52.4557], # Lelystad airport
+        "LEY": [5.5189, 52.4557], # Lelystad airport
         "EIN": [5.3761, 51.4516], # Eindhoven airport
         "UDE": [5.7091, 51.6577], # Volkel airport
         "MAA": [5.7712, 50.9130], # Maastricht airport
-        "LEE": [5.7601, 53.2285], # Leeuwarden airport
-        "GRO": [6.5773, 53.1189], # Groningen airport
-        "TWE": [6.8859, 52.2745], # Twente airport
-        "HOO": [6.5183, 52.7309], # Hoogeveen airport
-        "ZEE": [3.7307, 51.5122], # Midden zeeland airport
-        "KOO": [4.7807, 52.9236], # De kooy airport
-        "TEU": [6.0499, 52.2428], # Teuge airport
+        "LWR": [5.7601, 53.2285], # Leeuwarden airport
+        "GRQ": [6.5773, 53.1189], # Groningen airport
+        "ENS": [6.8859, 52.2745], # Twente airport
+        #"HOO": [6.5183, 52.7309], # Hoogeveen airport
+        #"ZEE": [3.7307, 51.5122], # Midden zeeland airport
+        "DHR": [4.7807, 52.9236], # De kooy airport
+        #"TEU": [6.0499, 52.2428], # Teuge airport
     }
 
     # Save sectors to file
