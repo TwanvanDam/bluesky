@@ -95,11 +95,11 @@ def save_stars_to_file(stars, airport_coodinates_dict, save_path="./procedures")
 
         # save all points as waypoints
         for j, point in enumerate(points):
-            if j == 0:
-                lines.append(f"00:00:00.00>%0 addwpt {point[1]} {point[0]} 9000 250\n")
+            # if j == 0:
+            #     lines.append(f"00:00:00.00>%0 addwpt {point[1]} {point[0]} 9000 250\n")
 
             # second to last point (=start of runway) set speed to 150
-            elif j == len(points) - 2:
+            if j == len(points) - 2:
                 lines.append(f"00:00:00.00>%0 addwpt {point[1]} {point[0]} 0 150\n")
 
             # last point (=end of runway) set speed to 0
@@ -111,6 +111,7 @@ def save_stars_to_file(stars, airport_coodinates_dict, save_path="./procedures")
         # add altitude, speed and color
         lines.append(f"00:00:00.10>%0 COL blue\n")
         lines.append(f"00:00:00.10>%0 ATALT FL100 SPD 250\n")
+        lines.append(f"00:00:00.15>%0 VNAV on\n")
 
         # save the file
         write_file(stars['Name'][i], lines, save_path)
