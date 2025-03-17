@@ -108,7 +108,7 @@ def make_legend(center_airport, sectors):
                                                                                                     "other airports"))
         handles.append(mlines.Line2D([], [], color="red", marker="o", linestyle="None", markersize=8, label="Airports"))
 
-        plt.legend(handles=handles,loc="lower right")
+        plt.legend(handles=handles)
 
 
 if __name__ == "__main__":
@@ -125,27 +125,36 @@ if __name__ == "__main__":
     plot_configs = {"AMS" : {   "colors" :      {"SID 09": "yellow", "SID 36L": "orange", "STAR 04": "cyan", "STAR 06": "blue"},
                                 "map_size" :    {"min_lat" : 51.7, "max_lat" : 52.8, "min_lon" : 2.5, "max_lon" : 7},
                                 "figure_size" : (12, 5)},
-                    "RTM": {"colors":           {"SID 06": "yellow", "STAR 06": "cyan"},
-                            "map_size":         {"min_lat": 51.5, "max_lat": 52.3, "min_lon": 3.2, "max_lon": 5.5},
-                            "figure_size":      (9, 5)},
+                    # "RTM": {"colors":           {"SID 06": "yellow", "STAR 06": "cyan"},
+                    #         "map_size":         {"min_lat": 51.5, "max_lat": 52.3, "min_lon": 3.2, "max_lon": 5.5},
+                    #         "figure_size":      (9, 5)},
                     "LEY": {"colors": {"STAR": "cyan"},
-                                 "map_size": {"min_lat": 51.5, "max_lat": 52.8, "min_lon": 4.8, "max_lon": 6.2},
-                                 "figure_size": (6, 6)},
-                    "EIN": {"colors": {"SID": "yellow", "STAR": "cyan"},
-                                 "map_size": {"min_lat": 51.3, "max_lat": 51.7, "min_lon": 4.8, "max_lon": 6.3},
-                                 "figure_size": (12, 12)},
+                                 "map_size": {"min_lat": 51.8, "max_lat": 52.8, "min_lon": 4.8, "max_lon": 6.2},
+                                 "figure_size": (5, 5)},
+                    # "EIN": {"colors": {"SID": "yellow", "STAR": "cyan"},
+                    #              "map_size": {"min_lat": 51.3, "max_lat": 51.7, "min_lon": 4.8, "max_lon": 6.3},
+                    #              "figure_size": (12, 12)},
                     "MAA": {"colors": { "STAR": "cyan"},
                                  "map_size": {"min_lat": 50.7, "max_lat": 51, "min_lon": 5.5, "max_lon": 6},
-                                 "figure_size": (6, 6)},
-                    "LWR": {"colors": { "STAR": "cyan"},
-                                 "map_size": {"min_lat": 53.15, "max_lat": 53.35, "min_lon": 5.5, "max_lon": 6},
-                                 "figure_size": (6, 6)},
-                    "GRQ": {"colors": {"STAR": "cyan"},
-                                 "map_size": {"min_lat": 52.4, "max_lat": 53.3, "min_lon": 5.4, "max_lon": 7},
                                  "figure_size": (5, 5)},
-                     "Overview" : {"colors":     {"SID": "yellow", "STAR": "cyan"},
-                                  "map_size":   {"min_lat": 50.5, "max_lat": 55, "min_lon": 2, "max_lon": 7.5},
-                                  "figure_size":(12, 12 )}}
+                    # "LWR": {"colors": { "STAR": "cyan"},
+                    #              "map_size": {"min_lat": 53.15, "max_lat": 53.35, "min_lon": 5.5, "max_lon": 6},
+                    #              "figure_size": (6, 6)},
+                    # "GRQ": {"colors": {"STAR": "cyan"},
+                    #              "map_size": {"min_lat": 52.4, "max_lat": 53.3, "min_lon": 5.4, "max_lon": 7},
+                    #              "figure_size": (5, 5)},
+                    #  "Overview" : {"colors":     {"SID": "yellow", "STAR": "cyan"},
+                    #               "map_size":   {"min_lat": 50.5, "max_lat": 55, "min_lon": 2, "max_lon": 7.5},
+                    #               "figure_size":(12, 12 )},
+                         "UDE": {"colors": {"STAR": "cyan"},
+                                  "map_size": {"min_lat": 51.6, "max_lat": 51.85, "min_lon": 5.3, "max_lon": 5.8},
+                                  "figure_size": (5, 5)},
+                     "ENS": {"colors": {"STAR": "cyan"},
+                             "map_size": {"min_lat": 52.2, "max_lat": 52.35, "min_lon": 6.7, "max_lon": 7},
+                             "figure_size": (5, 5)},
+                     "DHR": {"colors": {"STAR": "cyan"},
+                             "map_size": {"min_lat": 52.8, "max_lat": 53, "min_lon": 4.5, "max_lon": 5.1},
+                             "figure_size": (6, 6)}}
 
     airport_coordinates_dict = {
         "RTM": [4.4595, 51.9644, "EHRD"], # Rotterdam airport
