@@ -1,16 +1,10 @@
 import fiona
-import os
 import math
-import shutil
 import geopandas as gpd
-import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.colors as colors
-import geopandas
 import matplotlib.lines as mlines
 from mpl_toolkits.basemap import Basemap
-from openpyxl.styles.alignment import horizontal_alignments
 
 
 def read_sector_file(file_path):
@@ -30,7 +24,7 @@ def read_sid_star_file(file_path):
     procedures = df[df['geometry'].geom_type == 'LineString']
     return procedures
 
-def setup_map(resolution, xpixels, plot_configs, center_airport):
+def setup_map(resolution, plot_satellite, plot_configs, center_airport):
     plt.figure(figsize=plot_configs[center_airport]["figure_size"])
     m = Basemap(projection='merc',epsg=3857,
                 llcrnrlat=plot_configs[center_airport]["map_size"]["min_lat"],
@@ -40,18 +34,24 @@ def setup_map(resolution, xpixels, plot_configs, center_airport):
                 resolution=resolution)
 
     m.drawcountries(linewidth=1)
-    m.drawmeridians(np.arange(math.floor(plot_configs[center_airport]["map_size"]["min_lon"]),
-                              math.ceil(plot_configs[center_airport]["map_size"]["max_lon"]), 1), labels=[0, 0,0,1], fontsize=10, linewidth=0.1, zorder=10)
-    m.drawparallels(np.arange(math.floor(plot_configs[center_airport]["map_size"]["min_lat"]),
-                              math.ceil(plot_configs[center_airport]["map_size"]["max_lat"]), 1), labels=[1,0,0,0], fontsize=10, linewidth=0.1, zorder=10)
-    m.arcgisimage(service='World_Imagery', xpixels=xpixels, verbose=True)
+    m.drawrivers()
+    m.drawcoastlines()
+    m.drawstates()
+
+    if plot_satellite:
+        m.arcgisimage(service='World_Imagery', xpixels=1500, verbose=False)
+    else:
+        m.drawmeridians(np.arange(math.floor(plot_configs[center_airport]["map_size"]["min_lon"]),
+                                 math.ceil(plot_configs[center_airport]["map_size"]["max_lon"]), 1), labels=[0, 0,0,1], fontsize=10, linewidth=0.1, zorder=10)
+        m.drawparallels(np.arange(math.floor(plot_configs[center_airport]["map_size"]["min_lat"]),
+                                 math.ceil(plot_configs[center_airport]["map_size"]["max_lat"]), 1), labels=[1,0,0,0], fontsize=10, linewidth=0.1, zorder=10)
     return m
 
 def plot_procedures(center_airport, procedures,map,  airport_coordinates_dict, plot_configs):
     colors = plot_configs[center_airport]["colors"]
 
     for i in range(len(procedures)):
-        if center_airport in procedures["Name"][i] or (center_airport == "Overview"):
+        if center_airport in procedures["Name"][i][:3] or (center_airport == "Overview"):
             for key in colors.keys():
                 if key in procedures["Name"][i]:
                     color = colors[key]
@@ -65,20 +65,23 @@ def plot_procedures(center_airport, procedures,map,  airport_coordinates_dict, p
             linewidth = 1
         x = procedures["geometry"][i].xy[0]
         y = procedures["geometry"][i].xy[1]
+        if center_airport == "Overview":
+            linewidth = 0.5
+
         plt.plot(*map(x, y), color=color, linestyle=linestyle, linewidth=linewidth)
 
-        for airport in airport_coordinates_dict.keys():
-
-            if airport != "Overview":
-                x, y = airport_coordinates_dict[airport][:-1]
-                min_x = plot_configs[center_airport]["map_size"]["min_lon"]
-                max_x = plot_configs[center_airport]["map_size"]["max_lon"]
-                min_y = plot_configs[center_airport]["map_size"]["min_lat"]
-                max_y = plot_configs[center_airport]["map_size"]["max_lat"]
-                if min_x < x < max_x and min_y < y < max_y:
-                    plt.plot(*map(*airport_coordinates_dict[airport][:-1]), 'ro', markersize=5)
-                    plt.text(*map(x, y+0.02), airport_coordinates_dict[airport][2],
-                             fontsize=8, color="red", horizontalalignment="center")
+        if center_airport != "Overview":
+            for airport in airport_coordinates_dict.keys():
+                if airport != "Overview":
+                    x, y = airport_coordinates_dict[airport][:-1]
+                    min_x = plot_configs[center_airport]["map_size"]["min_lon"]
+                    max_x = plot_configs[center_airport]["map_size"]["max_lon"]
+                    min_y = plot_configs[center_airport]["map_size"]["min_lat"]
+                    max_y = plot_configs[center_airport]["map_size"]["max_lat"]
+                    if min_x < x < max_x and min_y < y < max_y:
+                        plt.plot(*map(*airport_coordinates_dict[airport][:-1]), 'ro', markersize=5)
+                        plt.text(*map(x, y+0.02), airport_coordinates_dict[airport][2],
+                                 fontsize=8, color="red", horizontalalignment="center")
     return
 
 def plot_sector(sectors, map):
@@ -86,7 +89,13 @@ def plot_sector(sectors, map):
         if "Sector" in sectors["Name"][i]:
             x = sectors["geometry"][i].exterior.xy[0]
             y = sectors["geometry"][i].exterior.xy[1]
-            plt.plot(*map(x, y), color="black", linestyle="solid", linewidth=2)
+            centroid = sectors["geometry"][i].centroid.xy
+            # print bold text
+            if sectors["Name"][i] == "Sector 1":
+                plt.text(*map(centroid[0][0], centroid[1][0]), "1", fontsize=10, color="white", horizontalalignment="center", weight="bold")
+            else:
+                plt.text(*map(centroid[0][0], centroid[1][0]), sectors["Name"][i], fontsize=10, color="white", horizontalalignment="center", weight="bold")
+            plt.plot(*map(x, y), color="white", linestyle="solid", linewidth=2)
 
 def make_legend(center_airport, sectors):
     for i in range(len(sectors)):
@@ -99,17 +108,17 @@ def make_legend(center_airport, sectors):
                                                                                                     "other airports"))
         handles.append(mlines.Line2D([], [], color="red", marker="o", linestyle="None", markersize=8, label="Airports"))
 
-        plt.legend(handles=handles)
+        plt.legend(handles=handles,loc="lower right")
 
 
 if __name__ == "__main__":
-    course = True
+    course = False
     if course:
         resolution = "c"
-        xpixels = 500
+        plot_satellite = False
     else:
         resolution = "h"
-        xpixels = 1500
+        plot_satellite = True
 
     input_file = "C:/Users/twanv/Downloads/ATM Kaart.kml"
 
@@ -117,16 +126,26 @@ if __name__ == "__main__":
                                 "map_size" :    {"min_lat" : 51.7, "max_lat" : 52.8, "min_lon" : 2.5, "max_lon" : 7},
                                 "figure_size" : (12, 5)},
                     "RTM": {"colors":           {"SID 06": "yellow", "STAR 06": "cyan"},
-                            "map_size":         {"min_lat": 51.5, "max_lat": 52.3, "min_lon": 2.5, "max_lon": 7},
-                            "figure_size":      (12, 5)},
-                    # EIN
-                    # LEY
-                    # MAA
-                    # LWR
-                    # GRQ
-                    "Overview" : {"colors":     {"SID": "yellow", "STAR": "cyan"},
+                            "map_size":         {"min_lat": 51.5, "max_lat": 52.3, "min_lon": 3.2, "max_lon": 5.5},
+                            "figure_size":      (9, 5)},
+                    "LEY": {"colors": {"STAR": "cyan"},
+                                 "map_size": {"min_lat": 51.5, "max_lat": 52.8, "min_lon": 4.8, "max_lon": 6.2},
+                                 "figure_size": (6, 6)},
+                    "EIN": {"colors": {"SID": "yellow", "STAR": "cyan"},
+                                 "map_size": {"min_lat": 51.3, "max_lat": 51.7, "min_lon": 4.8, "max_lon": 6.3},
+                                 "figure_size": (12, 12)},
+                    "MAA": {"colors": { "STAR": "cyan"},
+                                 "map_size": {"min_lat": 50.7, "max_lat": 51, "min_lon": 5.5, "max_lon": 6},
+                                 "figure_size": (6, 6)},
+                    "LWR": {"colors": { "STAR": "cyan"},
+                                 "map_size": {"min_lat": 53.15, "max_lat": 53.35, "min_lon": 5.5, "max_lon": 6},
+                                 "figure_size": (6, 6)},
+                    "GRQ": {"colors": {"STAR": "cyan"},
+                                 "map_size": {"min_lat": 52.4, "max_lat": 53.3, "min_lon": 5.4, "max_lon": 7},
+                                 "figure_size": (5, 5)},
+                     "Overview" : {"colors":     {"SID": "yellow", "STAR": "cyan"},
                                   "map_size":   {"min_lat": 50.5, "max_lat": 55, "min_lon": 2, "max_lon": 7.5},
-                                  "figure_size":(12, 12)}}
+                                  "figure_size":(12, 12 )}}
 
     airport_coordinates_dict = {
         "RTM": [4.4595, 51.9644, "EHRD"], # Rotterdam airport
@@ -145,11 +164,11 @@ if __name__ == "__main__":
     sectors = read_sector_file(input_file)
 
     for airport in plot_configs.keys():
-        m = setup_map(resolution, xpixels, plot_configs, airport)
+        m = setup_map(resolution, plot_satellite, plot_configs, airport)
 
         plot_procedures(airport, procedures, m, airport_coordinates_dict, plot_configs)
         if airport == "Overview":
             plot_sector(sectors, m)
         make_legend(airport, sectors)
-        plt.savefig(f"./procedures/plots/{airport}.pdf", bbox_inches='tight', dpi=300)
+        plt.savefig(f"./procedures/plots/{airport}.png", bbox_inches='tight', dpi=200)
         plt.show()
