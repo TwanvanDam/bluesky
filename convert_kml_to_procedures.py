@@ -146,10 +146,7 @@ if __name__ == "__main__":
         "LWR": [5.7601, 53.2285], # Leeuwarden airport
         "GRQ": [6.5773, 53.1189], # Groningen airport
         "ENS": [6.8859, 52.2745], # Twente airport
-        #"HOO": [6.5183, 52.7309], # Hoogeveen airport
-        #"ZEE": [3.7307, 51.5122], # Midden zeeland airport
         "DHR": [4.7807, 52.9236], # De kooy airport
-        #"TEU": [6.0499, 52.2428], # Teuge airport
     }
 
     # Save sectors to file
